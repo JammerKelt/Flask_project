@@ -3,5 +3,18 @@
 {% block title %} Articles {% endblock %}
 
 {% block main %}
-    here should be articles
+    {% if articles %}
+        <div class="list-group">
+            {% for id, article in articles %}
+            <a href="{{ url_for("view_article", art_id=id) }}" class="list-group-item list-group-item-action flex-column align-items-start active">
+                <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ article.title }}</h5>
+                </div>
+            </a>
+            <p class="mb-1">{{ article.content | truncate(100) }}</p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No articles :(</p>
+    {% endif %}
 {% endblock %}
