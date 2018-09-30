@@ -3,7 +3,11 @@
 {% block title %} Articles {% endblock %}
 
 {% block main %}
-    {% if articles %}
+    {% if "logged" in session %}
+        <a href="{{ url_for("view_add_article" )}}">add new article</a>
+    {% endif %}
+    
+        {% if articles %}
         <div class="list-group">
             {% for article in articles %}
             <a href="{{ url_for("view_article", art_id=article.id) }}" class="list-group-item list-group-item-action flex-column align-items-start active">
