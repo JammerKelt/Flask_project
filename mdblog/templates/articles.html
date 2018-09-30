@@ -5,8 +5,8 @@
 {% block main %}
     {% if articles %}
         <div class="list-group">
-            {% for id, article in articles %}
-            <a href="{{ url_for("view_article", art_id=id) }}" class="list-group-item list-group-item-action flex-column align-items-start active">
+            {% for article in articles %}
+            <a href="{{ url_for("view_article", art_id=article.id) }}" class="list-group-item list-group-item-action flex-column align-items-start active">
                 <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ article.title }}</h5>
                 </div>
