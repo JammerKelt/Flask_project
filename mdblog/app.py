@@ -5,6 +5,7 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from flask import g
+from flask import flash
 
 
 
@@ -30,6 +31,7 @@ def view_about():
 @flask_app.route("/admin/")
 def view_admin():
     if "logged" not in session:
+        flash("You must be logged in...", "list-group-item list-group-item-danger")
         return redirect(url_for("view_login"))
     return render_template("admin.html")
 
@@ -45,6 +47,7 @@ def add_article() :
     db = get_db()
     db.execute("insert into articles (title, content) values (?, ?)", [request.form.get("title"), request.form.get("content")])
     db.commit()
+    flash("Article was saved..")
     return redirect(url_for("view_articles"))
     
 
@@ -68,13 +71,16 @@ def login_user():
     password = request.form["password"]
     if username == flask_app.config["USERNAME"] and password == flask_app.config["PASSWORD"]:
         session["logged"] = True
+        flash("Login succesful", "list-group-item list-group-item-success")
         return redirect(url_for("view_admin"))
     else:
+        flash("Invalid credentials", "list-group-item list-group-item-danger")
         return redirect(url_for("view_login"))
 
 @flask_app.route("/logout/", methods=["POST"])
 def logout_user():
     session.pop("logged")
+    flash("Logout succesfull..", "list-group-item list-group-item-success")
     return redirect(url_for("view_welcome_page"))
 
 
