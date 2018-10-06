@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 
 from .models import db
 from .mod_main import main
@@ -16,6 +17,14 @@ db.init_app(flask_app)
 flask_app.register_blueprint(main)
 flask_app.register_blueprint(blog)
 flask_app.register_blueprint(admin)
+
+@flask_app.errorhandler(500)
+def internal_sever_error(error):
+    return render_template("errors/500.html"), 500
+
+@flask_app.errorhandler(404)
+def internal_sever_error(error):
+    return render_template("errors/404.html"), 404
 
 ## CLI COMMAND
 def init_db(app):
