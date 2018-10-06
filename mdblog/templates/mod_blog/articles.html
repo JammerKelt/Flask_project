@@ -18,6 +18,29 @@
             <p class="mb-1">{{ article.content | truncate(100) }}</p>
             {% endfor %}
         </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+            {% if paginate.has_prev %}
+                <li class="page-item"><a class="page-link" href={{ url_for("blog.view_articles", page=paginate.prev_num)}}>Previous</a></li>
+            {% endif %}
+
+            {% for page in paginate.iter_pages() %}
+                {% if page %}
+                    {% if page != paginate.page %}
+                        <li class="page-item"><a class="page-link" href={{ url_for("blog.view_articles", page=page) }}>{{page}}</a></li>
+                    {% else %}
+                        <li class="page-item active"><span class="page-link">{{page}}</span></li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if paginate.has_next %}
+                <li class="page-item"><a class="page-link" href={{ url_for("blog.view_articles", page=paginate.next_num)}}>Next</a></li>
+            {% endif %}
+            </ul>
+            </nav>
     {% else %}
         <p>No articles :(</p>
     {% endif %}
